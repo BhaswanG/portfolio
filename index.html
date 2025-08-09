@@ -5,106 +5,129 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Master's Portfolio</title>
   <style>
-    /* Reset */
+    /* Reset and basic */
     * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
+      margin: 0; padding: 0; box-sizing: border-box;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      cursor: none; /* Hide default cursor */
+      cursor: none;
+      user-select: text;
     }
 
-    /* Smooth scrolling */
     html {
       scroll-behavior: smooth;
     }
 
-    /* Body & Dark mode setup */
     body {
       background: #f4f7f8;
       color: #333;
       line-height: 1.6;
-      padding: 20px;
       max-width: 900px;
       margin: 0 auto;
-      transition: background 0.4s ease, color 0.4s ease;
+      padding: 20px 20px 100px; /* bottom padding for scroll comfort */
+      transition: background 0.4s, color 0.4s;
       position: relative;
-      overflow-x: hidden;
     }
+
     body.dark {
       background: #121212;
       color: #ddd;
     }
 
-    /* Header container for buttons + toggle */
+    /* TOPBAR */
     #topbar {
+      position: fixed;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
       display: flex;
-      justify-content: center;
-      gap: 15px;
-      margin-bottom: 25px;
       flex-wrap: wrap;
+      gap: 12px;
+      padding: 8px 18px;
+      background: rgba(255 255 255 / 0.9);
+      backdrop-filter: blur(10px);
+      border-radius: 30px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      z-index: 10000;
+      align-items: center;
+      max-width: 95vw;
+      height: 56px;
       user-select: none;
     }
+    body.dark #topbar {
+      background: rgba(18 18 18 / 0.9);
+      box-shadow: 0 4px 12px rgba(106,17,203,0.6);
+    }
 
-    /* Section nav buttons */
-    #topbar button.section-btn {
+    /* Reserve space for fixed topbar so content never hidden */
+    main {
+      padding-top: 70px;
+    }
+
+    /* Buttons style */
+    #topbar button {
       padding: 10px 20px;
-      border: none;
       border-radius: 30px;
-      font-weight: 600;
-      font-size: 1rem;
+      border: none;
       background: linear-gradient(135deg, #6a11cb, #2575fc);
       color: white;
+      font-weight: 600;
+      font-size: 1rem;
       cursor: pointer;
-      position: relative;
-      overflow: hidden;
-      transition: background 0.3s ease;
-      box-shadow: 0 0 10px rgba(38, 115, 254, 0.6);
+      box-shadow: 0 0 12px rgba(38,115,254,0.7);
+      transition: all 0.3s ease;
+      white-space: nowrap;
+      user-select: none;
     }
-    #topbar button.section-btn:hover {
+    #topbar button:hover {
       background: linear-gradient(135deg, #2575fc, #6a11cb);
-      box-shadow: 0 0 20px rgba(38, 115, 254, 0.9);
+      box-shadow: 0 0 22px rgba(38,115,254,0.9);
+      transform: scale(1.05);
+      z-index: 10001;
     }
-    #topbar button.section-btn:active {
+    #topbar button:active {
       transform: scale(0.95);
     }
 
-    /* Dark mode toggle button */
     #darkToggle {
-      padding: 10px 25px;
-      border-radius: 30px;
-      border: 2px solid #2575fc;
       background: transparent;
-      font-weight: 700;
+      border: 2px solid #2575fc;
       color: #2575fc;
-      cursor: pointer;
-      box-shadow: 0 0 8px #2575fc;
-      transition: background 0.3s, color 0.3s;
+      font-weight: 700;
+    }
+    body.dark #darkToggle {
+      border-color: #b292ff;
+      color: #b292ff;
+      box-shadow: none;
     }
     #darkToggle:hover {
       background: #2575fc;
       color: white;
-      box-shadow: 0 0 16px #6a11cb;
-    }
-    body.dark #darkToggle {
-      color: #6a11cb;
-      border-color: #6a11cb;
-      box-shadow: 0 0 8px #6a11cb;
+      box-shadow: 0 0 15px #6a11cb;
     }
     body.dark #darkToggle:hover {
       background: #6a11cb;
       color: white;
-      box-shadow: 0 0 16px #2575fc;
+      box-shadow: 0 0 15px #b292ff;
     }
 
-    /* Header */
+    /* Gravity submenu */
+    #gravitySubs {
+      display: none;
+      gap: 8px;
+    }
+    #gravitySubs.show {
+      display: flex;
+    }
+
+    /* Header & content */
     header {
       text-align: center;
       margin-bottom: 40px;
-      transition: color 0.4s;
+      user-select: text;
+      position: relative;
+      z-index: 1;
     }
 
-    /* Profile pic */
     .profile-pic {
       width: 120px;
       height: 120px;
@@ -114,9 +137,12 @@
       margin-bottom: 15px;
       display: inline-block;
       transition: border-color 0.4s;
+      user-select: none;
+      position: relative;
+      z-index: 2;
     }
     body.dark .profile-pic {
-      border-color: #6a11cb;
+      border-color: #b292ff;
     }
 
     h1 {
@@ -124,6 +150,7 @@
       margin-bottom: 5px;
       color: #222;
       transition: color 0.4s;
+      user-select: text;
     }
     body.dark h1 {
       color: #eee;
@@ -136,6 +163,7 @@
       display: inline-block;
       padding-bottom: 5px;
       transition: color 0.4s, border-color 0.4s;
+      user-select: text;
     }
     body.dark h2 {
       color: #b292ff;
@@ -149,6 +177,9 @@
       border-radius: 8px;
       box-shadow: 0 0 10px rgba(74, 144, 226, 0.1);
       transition: background 0.4s, box-shadow 0.4s, color 0.4s;
+      user-select: text;
+      position: relative;
+      z-index: 0;
     }
     body.dark section {
       background: #222;
@@ -156,13 +187,13 @@
       color: #ddd;
     }
 
-    /* Skills list */
     ul.skills-list {
       list-style-type: none;
       display: flex;
       flex-wrap: wrap;
       gap: 10px;
       padding-left: 0;
+      user-select: none;
     }
     ul.skills-list li {
       background: #4a90e2;
@@ -178,12 +209,14 @@
       background: #6a11cb;
     }
 
-    /* Projects */
     .project {
       margin-bottom: 15px;
       padding-bottom: 10px;
       border-bottom: 1px solid #ddd;
       transition: border-color 0.4s;
+      user-select: text;
+      position: relative;
+      z-index: 0;
     }
     body.dark .project {
       border-color: #6a11cb;
@@ -197,6 +230,7 @@
       font-size: 1.2rem;
       margin-bottom: 5px;
       transition: color 0.4s;
+      user-select: text;
     }
     body.dark .project-title {
       color: #ddd;
@@ -205,16 +239,17 @@
       font-size: 0.95rem;
       color: #555;
       transition: color 0.4s;
+      user-select: text;
     }
     body.dark .project-description {
       color: #bbb;
     }
 
-    /* Contact info */
     .contact-info {
       font-size: 1rem;
       color: #333;
       transition: color 0.4s;
+      user-select: text;
     }
     body.dark .contact-info {
       color: #ddd;
@@ -234,7 +269,10 @@
     /* Responsive */
     @media (max-width: 600px) {
       body {
-        padding: 10px;
+        padding: 10px 10px 80px;
+      }
+      main {
+        padding-top: 65px;
       }
       .profile-pic {
         width: 100px;
@@ -243,133 +281,162 @@
       h1 {
         font-size: 2rem;
       }
+      #topbar {
+        height: 52px;
+        padding: 6px 14px;
+      }
+      #topbar button {
+        padding: 8px 14px;
+        font-size: 0.85rem;
+      }
     }
 
-    /* Custom Cursor */
+    /* Comet Cursor */
     #custom-cursor {
       position: fixed;
-      top: 0;
-      left: 0;
-      width: 25px;
-      height: 25px;
+      top: 0; left: 0;
+      width: 20px; height: 20px;
       background: #2575fc;
       border-radius: 50%;
       pointer-events: none;
       mix-blend-mode: difference;
       transform: translate(-50%, -50%);
+      box-shadow:
+        0 0 10px #2575fc,
+        0 0 20px #6a11cb,
+        0 0 30px #6a11cb;
       transition: background-color 0.3s ease;
-      z-index: 10000;
+      z-index: 10001;
+      user-select: none;
+    }
+    body.dark #custom-cursor {
+      background: #b292ff;
+      box-shadow:
+        0 0 10px #b292ff,
+        0 0 20px #6a11cb,
+        0 0 30px #6a11cb;
+    }
+    body:not(.dark) #custom-cursor {
+      background: #a147ff;
+      box-shadow:
+        0 0 10px #a147ff,
+        0 0 20px #d77fff,
+        0 0 30px #d77fff;
     }
 
-    /* Trail container */
     #cursor-trail {
       position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
+      top: 0; left: 0;
+      width: 100vw; height: 100vh;
       pointer-events: none;
       overflow: visible;
-      z-index: 9999;
+      z-index: 10000;
+      user-select: none;
     }
 
-    /* Trail dots */
     .trail-dot {
-      position: absolute;
-      width: 15px;
-      height: 15px;
+      position: fixed;
+      width: 15px; height: 15px;
       border-radius: 50%;
       background: #6a11cb;
-      opacity: 0.5;
+      opacity: 0.4;
       pointer-events: none;
-      animation: fadeOut 1s forwards;
+      user-select: none;
+      filter: blur(3px);
+      transition: opacity 0.3s ease;
       mix-blend-mode: difference;
+      will-change: transform, opacity;
     }
-
-    @keyframes fadeOut {
-      to {
-        opacity: 0;
-        transform: scale(2);
-      }
+    body:not(.dark) .trail-dot {
+      background: #d77fff;
+      opacity: 0.5;
     }
   </style>
 </head>
 <body>
-  <!-- Topbar: Dark Mode Toggle + Section Buttons -->
-  <div id="topbar">
-    <button id="darkToggle" aria-label="Toggle Dark Mode">Dark Mode</button>
+  <!-- Topbar -->
+  <div id="topbar" role="navigation" aria-label="Main Navigation">
+    <button id="darkToggle" aria-pressed="false" aria-label="Toggle Dark Mode">Dark Mode</button>
     <button class="section-btn" data-target="about">About Me</button>
     <button class="section-btn" data-target="skills">Skills</button>
     <button class="section-btn" data-target="projects">Projects</button>
     <button class="section-btn" data-target="contact">Contact</button>
+    <button id="gravityBtn" aria-haspopup="true" aria-expanded="false" aria-controls="gravitySubs" aria-label="Toggle Gravity Options">Gravity ▼</button>
+    <div id="gravitySubs" role="menu" aria-hidden="true">
+      <button class="gravity-sub-btn" id="zeroGravityBtn" role="menuitem" aria-pressed="false">Zero Gravity</button>
+      <button class="gravity-sub-btn" id="hyperGravityBtn" role="menuitem" aria-pressed="false">Hypergravity</button>
+    </div>
   </div>
 
-  <header>
-    <img
-      src="https://via.placeholder.com/150"
-      alt="Profile Picture"
-      class="profile-pic"
-    />
-    <h1>Master</h1>
-    <p>Scientific Enthusiast | STEM Lover | Curious Mind</p>
-  </header>
+  <main>
+    <header>
+      <img
+        src="https://via.placeholder.com/150"
+        alt="Profile Picture"
+        class="profile-pic"
+        draggable="false"
+      />
+      <h1>Master</h1>
+      <p>Scientific Enthusiast | STEM Lover | Curious Mind</p>
+    </header>
 
-  <section id="about">
-    <h2>About Me</h2>
-    <p>
-      Hello! I'm Master, a passionate student and science enthusiast fascinated by everything STEM. I love coding, exploring physics concepts, and pushing the boundaries of knowledge. Currently, I'm preparing for JEE and sharpening my skills in various scientific domains.
-    </p>
-  </section>
+    <section id="about">
+      <h2>About Me</h2>
+      <p>
+        Hello! I'm Master, a passionate student and science enthusiast fascinated by everything STEM. I love coding, exploring physics concepts, and pushing the boundaries of knowledge. Currently, I'm preparing for JEE and sharpening my skills in various scientific domains.
+      </p>
+    </section>
 
-  <section id="skills">
-    <h2>Skills</h2>
-    <ul class="skills-list">
-      <li>Python</li>
-      <li>Fortran</li>
-      <li>Physics</li>
-      <li>Chemistry</li>
-      <li>Mathematics</li>
-      <li>German (Intermediate)</li>
-      <li>Data Analysis</li>
-      <li>Research</li>
-    </ul>
-  </section>
+    <section id="skills">
+      <h2>Skills</h2>
+      <ul class="skills-list">
+        <li>Python</li>
+        <li>Fortran</li>
+        <li>Physics</li>
+        <li>Chemistry</li>
+        <li>Mathematics</li>
+        <li>German (Intermediate)</li>
+        <li>Data Analysis</li>
+        <li>Research</li>
+      </ul>
+    </section>
 
-  <section id="projects">
-    <h2>Projects</h2>
+    <section id="projects">
+      <h2>Projects</h2>
 
-    <div class="project">
-      <div class="project-title">Black Hole Simulation (Fortran)</div>
-      <div class="project-description">
-        Created a 3D black hole simulation using Fortran with basic graphical output demonstrating gravitational lensing effects.
+      <div class="project" tabindex="0">
+        <div class="project-title">Black Hole Simulation (Fortran)</div>
+        <div class="project-description">
+          Created a 3D black hole simulation using Fortran with basic graphical output demonstrating gravitational lensing effects.
+        </div>
       </div>
-    </div>
 
-    <div class="project">
-      <div class="project-title">Scientific YouTube Channel</div>
-      <div class="project-description">
-        Developed and maintained a YouTube channel focused on STEM topics, coding tutorials, and independent research projects.
+      <div class="project" tabindex="0">
+        <div class="project-title">Scientific YouTube Channel</div>
+        <div class="project-description">
+          Developed and maintained a YouTube channel focused on STEM topics, coding tutorials, and independent research projects.
+        </div>
       </div>
-    </div>
 
-    <div class="project">
-      <div class="project-title">JEE Preparation Tracker</div>
-      <div class="project-description">
-        Designed a personalized study timetable and progress tracker to optimize preparation for JEE Mains 2025.
+      <div class="project" tabindex="0">
+        <div class="project-title">JEE Preparation Tracker</div>
+        <div class="project-description">
+          Designed a personalized study timetable and progress tracker to optimize preparation for JEE Mains 2025.
+        </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <section id="contact">
-    <h2>Contact</h2>
-    <p class="contact-info">
-      Email: <a href="mailto:master@example.com">master@example.com</a><br />
-      GitHub: <a href="https://github.com/Master" target="_blank" rel="noopener noreferrer">github.com/Master</a><br />
-      LinkedIn: <a href="https://linkedin.com/in/master" target="_blank" rel="noopener noreferrer">linkedin.com/in/master</a>
-    </p>
-  </section>
+    <section id="contact">
+      <h2>Contact</h2>
+      <p class="contact-info">
+        Email: <a href="mailto:master@example.com">master@example.com</a><br />
+        GitHub: <a href="https://github.com/Master" target="_blank" rel="noopener noreferrer">github.com/Master</a><br />
+        LinkedIn: <a href="https://linkedin.com/in/master" target="_blank" rel="noopener noreferrer">linkedin.com/in/master</a>
+      </p>
+    </section>
+  </main>
 
-  <!-- Custom Cursor & Trail -->
+  <!-- Cursor elements -->
   <div id="cursor-trail"></div>
   <div id="custom-cursor"></div>
 
@@ -377,77 +444,305 @@
     // Dark Mode Toggle
     const darkToggle = document.getElementById('darkToggle');
     darkToggle.addEventListener('click', () => {
-      document.body.classList.toggle('dark');
-      if (document.body.classList.contains('dark')) {
-        darkToggle.textContent = 'Light Mode';
-      } else {
-        darkToggle.textContent = 'Dark Mode';
-      }
+      const isDark = document.body.classList.toggle('dark');
+      darkToggle.textContent = isDark ? 'Light Mode' : 'Dark Mode';
+      darkToggle.setAttribute('aria-pressed', isDark);
+      updateCursorColor();
     });
 
-    // Section Buttons Scroll
+    // Smooth scroll for section buttons
     document.querySelectorAll('#topbar button.section-btn').forEach(button => {
       button.addEventListener('click', () => {
         const targetId = button.getAttribute('data-target');
-        const targetSection = document.getElementById(targetId);
-        if (targetSection) {
-          // Smooth scroll handled by CSS scroll-behavior: smooth
-          targetSection.scrollIntoView({ behavior: 'smooth' });
-        }
+        const target = document.getElementById(targetId);
+        if(target) target.scrollIntoView({behavior: 'smooth'});
       });
     });
 
-    // Custom Cursor and Trail
+    // Gravity dropdown toggle
+    const gravityBtn = document.getElementById('gravityBtn');
+    const gravitySubs = document.getElementById('gravitySubs');
+    let gravityMenuOpen = false;
+
+    gravityBtn.addEventListener('click', e => {
+      gravityMenuOpen = !gravityMenuOpen;
+      gravitySubs.classList.toggle('show', gravityMenuOpen);
+      gravityBtn.setAttribute('aria-expanded', gravityMenuOpen);
+    });
+
+    // Close gravity menu if clicked outside
+    document.addEventListener('click', e => {
+      if (gravityMenuOpen && !gravityBtn.contains(e.target) && !gravitySubs.contains(e.target)) {
+        gravityMenuOpen = false;
+        gravitySubs.classList.remove('show');
+        gravityBtn.setAttribute('aria-expanded', false);
+      }
+    });
+
+    // Comet cursor setup
     const cursor = document.getElementById('custom-cursor');
     const trailContainer = document.getElementById('cursor-trail');
+    const trailCount = 10;
+    const trailDots = [];
 
-    // To store previous mouse positions for trail
-    const trailPositions = [];
-    const maxTrail = 12;
-
-    document.addEventListener('mousemove', e => {
-      const x = e.clientX;
-      const y = e.clientY;
-
-      // Move main cursor
-      cursor.style.left = x + 'px';
-      cursor.style.top = y + 'px';
-
-      // Change cursor color based on dark mode
-      if(document.body.classList.contains('dark')) {
-        cursor.style.backgroundColor = '#b292ff';
-      } else {
-        cursor.style.backgroundColor = '#2575fc';
-      }
-
-      // Create trail dot
+    for(let i=0; i<trailCount; i++){
       const dot = document.createElement('div');
       dot.classList.add('trail-dot');
-      dot.style.left = (x - 7) + 'px'; // center dot on cursor
-      dot.style.top = (y - 7) + 'px';
-
-      // Set dot color depending on mode
-      if(document.body.classList.contains('dark')) {
-        dot.style.backgroundColor = '#b292ff';
-      } else {
-        dot.style.backgroundColor = '#6a11cb';
-      }
-
+      dot.style.opacity = (0.4 * (1 - i / trailCount)).toFixed(2);
       trailContainer.appendChild(dot);
+      trailDots.push({el: dot, x: window.innerWidth / 2, y: window.innerHeight / 2});
+    }
 
-      // Remove dot after animation
-      dot.addEventListener('animationend', () => {
-        dot.remove();
-      });
+    let mouseX = window.innerWidth / 2;
+    let mouseY = window.innerHeight / 2;
+
+    window.addEventListener('mousemove', e => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+      cursor.style.left = mouseX + 'px';
+      cursor.style.top = mouseY + 'px';
     });
 
-    // Optional: Hide default cursor on touch devices
-    function isTouchDevice() {
-      return (('ontouchstart' in window) || (navigator.maxTouchPoints > 0));
+    function animateCursor() {
+      let prevX = mouseX;
+      let prevY = mouseY;
+
+      trailDots.forEach((dot, i) => {
+        dot.x += (prevX - dot.x) * 0.25;
+        dot.y += (prevY - dot.y) * 0.25;
+        dot.el.style.left = dot.x + 'px';
+        dot.el.style.top = dot.y + 'px';
+        dot.el.style.opacity = (0.4 * (1 - i / trailCount)).toFixed(2);
+        prevX = dot.x;
+        prevY = dot.y;
+      });
+
+      requestAnimationFrame(animateCursor);
     }
-    if (isTouchDevice()) {
-      cursor.style.display = 'none';
+    animateCursor();
+
+    // Cursor color update on mode
+    function updateCursorColor() {
+      if(document.body.classList.contains('dark')) {
+        cursor.style.background = '#b292ff';
+        cursor.style.boxShadow = '0 0 10px #b292ff, 0 0 20px #6a11cb, 0 0 30px #6a11cb';
+        trailDots.forEach(dot => {
+          dot.el.style.background = '#6a11cb';
+        });
+      } else {
+        cursor.style.background = '#a147ff';
+        cursor.style.boxShadow = '0 0 10px #a147ff, 0 0 20px #d77fff, 0 0 30px #d77fff';
+        trailDots.forEach(dot => {
+          dot.el.style.background = '#d77fff';
+        });
+      }
     }
+    updateCursorColor();
+
+    // Gravity Logic
+
+    // Targets: all main content children (inside <main>)
+    const gravityTargets = Array.from(document.querySelectorAll('main > *'));
+
+    let gravityMode = null; // 'zero' or 'hyper' or null
+
+    // For zero gravity: track velocity and position offsets relative to natural
+    const zeroGravityData = new Map();
+
+    // For hypergravity: track fall position and velocity
+    const hyperGravityData = new Map();
+
+    // Helper: get page height for free floating range
+    function getPageHeight() {
+      return Math.max(
+        document.documentElement.scrollHeight,
+        document.body.scrollHeight,
+        window.innerHeight
+      );
+    }
+
+    // Reset all gravity effects: remove styles and listeners
+    function resetGravity() {
+      // Clear zero gravity interval and hypergravity RAF
+      if(window.zeroGravityInterval) {
+        clearInterval(window.zeroGravityInterval);
+        window.zeroGravityInterval = null;
+      }
+      if(window.hyperGravityRAF) {
+        cancelAnimationFrame(window.hyperGravityRAF);
+        window.hyperGravityRAF = null;
+      }
+
+      // Reset all elements styles & data
+      gravityTargets.forEach(el => {
+        el.style.transition = 'transform 0.3s ease';
+        el.style.transform = 'none';
+        el.style.position = '';
+        el.style.opacity = '1';
+      });
+
+      zeroGravityData.clear();
+      hyperGravityData.clear();
+
+      gravityTargets.forEach(el => {
+        el.removeEventListener('click', zeroGravityClickHandler);
+      });
+    }
+
+    // Zero Gravity Enable
+    function enableZeroGravity() {
+      resetGravity();
+      gravityMode = 'zero';
+      zeroGravityBtn.setAttribute('aria-pressed', 'true');
+      hyperGravityBtn.setAttribute('aria-pressed', 'false');
+
+      gravityTargets.forEach(el => {
+        zeroGravityData.set(el, {
+          vx: 0,
+          vy: 0,
+          tx: 0,
+          ty: 0,
+          width: el.offsetWidth,
+          height: el.offsetHeight,
+          naturalTop: el.getBoundingClientRect().top + window.scrollY,
+          naturalLeft: el.getBoundingClientRect().left + window.scrollX
+        });
+        el.style.position = 'relative';
+        el.style.transition = 'transform 0.3s ease';
+        el.style.willChange = 'transform';
+        // Add click listener for disturbance
+        el.addEventListener('click', zeroGravityClickHandler);
+      });
+
+      // Movement interval - slow drifting when disturbed
+      window.zeroGravityInterval = setInterval(() => {
+        const pageHeight = getPageHeight();
+        const pageWidth = window.innerWidth;
+
+        gravityTargets.forEach(el => {
+          const data = zeroGravityData.get(el);
+          if (!data) return;
+
+          // Update positions by velocity
+          data.tx += data.vx;
+          data.ty += data.vy;
+
+          // Boundaries (within entire page scroll height & viewport width)
+          const minX = -data.naturalLeft + -50; // allow some leeway to left
+          const maxX = pageWidth - data.naturalLeft - data.width + 50; // allow leeway right
+
+          const minY = -data.naturalTop + -50;
+          const maxY = pageHeight - data.naturalTop - data.height + 50;
+
+          // Bounce: if outside bounds, invert velocity
+          if(data.tx < minX || data.tx > maxX) data.vx *= -1;
+          if(data.ty < minY || data.ty > maxY) data.vy *= -1;
+
+          // Friction slows velocity gradually
+          data.vx *= 0.98;
+          data.vy *= 0.98;
+
+          // If velocity is super low, stop moving
+          if(Math.abs(data.vx) < 0.01) data.vx = 0;
+          if(Math.abs(data.vy) < 0.01) data.vy = 0;
+
+          el.style.transform = `translate(${data.tx.toFixed(1)}px, ${data.ty.toFixed(1)}px)`;
+        });
+      }, 30);
+    }
+
+    // On click in zero gravity: add random velocity to element
+    function zeroGravityClickHandler(e) {
+      e.stopPropagation();
+      const el = e.currentTarget;
+      const data = zeroGravityData.get(el);
+      if(!data) return;
+      data.vx += (Math.random() - 0.5) * 8;
+      data.vy += (Math.random() - 0.5) * 8;
+    }
+
+    // Hypergravity Enable
+    function enableHyperGravity() {
+      resetGravity();
+      gravityMode = 'hyper';
+      zeroGravityBtn.setAttribute('aria-pressed', 'false');
+      hyperGravityBtn.setAttribute('aria-pressed', 'true');
+
+      gravityTargets.forEach(el => {
+        hyperGravityData.set(el, {
+          y: 0,
+          vy: 0,
+          falling: true,
+          opacity: 1
+        });
+        el.style.position = 'relative';
+        el.style.transition = 'none';
+        el.style.opacity = '1';
+      });
+
+      function fallStep() {
+        let anyFalling = false;
+        const pageHeight = getPageHeight();
+
+        gravityTargets.forEach(el => {
+          const data = hyperGravityData.get(el);
+          if (!data) return;
+          if(!data.falling) return;
+
+          data.vy += 0.35; // gravity acceleration
+          data.y += data.vy;
+
+          // Apply transform
+          el.style.transform = `translateY(${data.y.toFixed(1)}px)`;
+
+          // Fade out near bottom of page (optional)
+          const bottomLimit = pageHeight - el.offsetHeight - 20;
+          if(data.y > bottomLimit) {
+            data.falling = false; // stop falling
+            el.style.opacity = '0.7'; // slightly faded at rest
+            el.style.transform = `translateY(${bottomLimit}px)`;
+          } else {
+            anyFalling = true;
+          }
+        });
+
+        if(anyFalling){
+          window.hyperGravityRAF = requestAnimationFrame(fallStep);
+        } else {
+          window.hyperGravityRAF = null;
+        }
+      }
+      fallStep();
+    }
+
+    // Disable gravity modes
+    function disableGravity() {
+      resetGravity();
+      gravityMode = null;
+      zeroGravityBtn.setAttribute('aria-pressed', 'false');
+      hyperGravityBtn.setAttribute('aria-pressed', 'false');
+    }
+
+    // Buttons
+    const zeroGravityBtn = document.getElementById('zeroGravityBtn');
+    const hyperGravityBtn = document.getElementById('hyperGravityBtn');
+
+    zeroGravityBtn.addEventListener('click', () => {
+      if(gravityMode === 'zero'){
+        disableGravity();
+      } else {
+        enableZeroGravity();
+      }
+    });
+
+    hyperGravityBtn.addEventListener('click', () => {
+      if(gravityMode === 'hyper'){
+        disableGravity();
+      } else {
+        enableHyperGravity();
+      }
+    });
+
   </script>
 </body>
 </html>
