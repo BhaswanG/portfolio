@@ -5,14 +5,21 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Master's Portfolio</title>
   <style>
-    /* Reset some basic stuff */
+    /* Reset */
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      cursor: none; /* Hide default cursor */
     }
 
+    /* Smooth scrolling */
+    html {
+      scroll-behavior: smooth;
+    }
+
+    /* Body & Dark mode setup */
     body {
       background: #f4f7f8;
       color: #333;
@@ -20,14 +27,84 @@
       padding: 20px;
       max-width: 900px;
       margin: 0 auto;
+      transition: background 0.4s ease, color 0.4s ease;
+      position: relative;
+      overflow-x: hidden;
+    }
+    body.dark {
+      background: #121212;
+      color: #ddd;
     }
 
+    /* Header container for buttons + toggle */
+    #topbar {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      margin-bottom: 25px;
+      flex-wrap: wrap;
+      user-select: none;
+    }
+
+    /* Section nav buttons */
+    #topbar button.section-btn {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 30px;
+      font-weight: 600;
+      font-size: 1rem;
+      background: linear-gradient(135deg, #6a11cb, #2575fc);
+      color: white;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      transition: background 0.3s ease;
+      box-shadow: 0 0 10px rgba(38, 115, 254, 0.6);
+    }
+    #topbar button.section-btn:hover {
+      background: linear-gradient(135deg, #2575fc, #6a11cb);
+      box-shadow: 0 0 20px rgba(38, 115, 254, 0.9);
+    }
+    #topbar button.section-btn:active {
+      transform: scale(0.95);
+    }
+
+    /* Dark mode toggle button */
+    #darkToggle {
+      padding: 10px 25px;
+      border-radius: 30px;
+      border: 2px solid #2575fc;
+      background: transparent;
+      font-weight: 700;
+      color: #2575fc;
+      cursor: pointer;
+      box-shadow: 0 0 8px #2575fc;
+      transition: background 0.3s, color 0.3s;
+    }
+    #darkToggle:hover {
+      background: #2575fc;
+      color: white;
+      box-shadow: 0 0 16px #6a11cb;
+    }
+    body.dark #darkToggle {
+      color: #6a11cb;
+      border-color: #6a11cb;
+      box-shadow: 0 0 8px #6a11cb;
+    }
+    body.dark #darkToggle:hover {
+      background: #6a11cb;
+      color: white;
+      box-shadow: 0 0 16px #2575fc;
+    }
+
+    /* Header */
     header {
       text-align: center;
       margin-bottom: 40px;
+      transition: color 0.4s;
     }
 
-    /* Profile pic styling */
+    /* Profile pic */
     .profile-pic {
       width: 120px;
       height: 120px;
@@ -36,12 +113,20 @@
       border: 3px solid #4a90e2;
       margin-bottom: 15px;
       display: inline-block;
+      transition: border-color 0.4s;
+    }
+    body.dark .profile-pic {
+      border-color: #6a11cb;
     }
 
     h1 {
       font-size: 2.8rem;
       margin-bottom: 5px;
       color: #222;
+      transition: color 0.4s;
+    }
+    body.dark h1 {
+      color: #eee;
     }
 
     h2 {
@@ -50,6 +135,11 @@
       border-bottom: 2px solid #4a90e2;
       display: inline-block;
       padding-bottom: 5px;
+      transition: color 0.4s, border-color 0.4s;
+    }
+    body.dark h2 {
+      color: #b292ff;
+      border-color: #b292ff;
     }
 
     section {
@@ -58,9 +148,15 @@
       padding: 20px;
       border-radius: 8px;
       box-shadow: 0 0 10px rgba(74, 144, 226, 0.1);
+      transition: background 0.4s, box-shadow 0.4s, color 0.4s;
+    }
+    body.dark section {
+      background: #222;
+      box-shadow: 0 0 15px rgba(106, 17, 203, 0.4);
+      color: #ddd;
     }
 
-    /* Skill list style */
+    /* Skills list */
     ul.skills-list {
       list-style-type: none;
       display: flex;
@@ -68,7 +164,6 @@
       gap: 10px;
       padding-left: 0;
     }
-
     ul.skills-list li {
       background: #4a90e2;
       color: white;
@@ -76,68 +171,143 @@
       border-radius: 20px;
       font-size: 0.9rem;
       font-weight: 600;
+      transition: background 0.4s;
+      cursor: default;
+    }
+    body.dark ul.skills-list li {
+      background: #6a11cb;
     }
 
-    /* Project cards */
+    /* Projects */
     .project {
       margin-bottom: 15px;
       padding-bottom: 10px;
       border-bottom: 1px solid #ddd;
+      transition: border-color 0.4s;
     }
-
+    body.dark .project {
+      border-color: #6a11cb;
+    }
     .project:last-child {
       border-bottom: none;
     }
-
     .project-title {
       font-weight: 700;
       color: #333;
       font-size: 1.2rem;
       margin-bottom: 5px;
+      transition: color 0.4s;
     }
-
+    body.dark .project-title {
+      color: #ddd;
+    }
     .project-description {
       font-size: 0.95rem;
       color: #555;
+      transition: color 0.4s;
+    }
+    body.dark .project-description {
+      color: #bbb;
     }
 
     /* Contact info */
     .contact-info {
       font-size: 1rem;
       color: #333;
+      transition: color 0.4s;
     }
-
+    body.dark .contact-info {
+      color: #ddd;
+    }
     .contact-info a {
       color: #4a90e2;
       text-decoration: none;
+      transition: color 0.4s;
     }
-
     .contact-info a:hover {
       text-decoration: underline;
     }
+    body.dark .contact-info a {
+      color: #b292ff;
+    }
 
-    /* Responsive adjustments */
+    /* Responsive */
     @media (max-width: 600px) {
       body {
         padding: 10px;
       }
-
       .profile-pic {
         width: 100px;
         height: 100px;
       }
-
       h1 {
         font-size: 2rem;
+      }
+    }
+
+    /* Custom Cursor */
+    #custom-cursor {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 25px;
+      height: 25px;
+      background: #2575fc;
+      border-radius: 50%;
+      pointer-events: none;
+      mix-blend-mode: difference;
+      transform: translate(-50%, -50%);
+      transition: background-color 0.3s ease;
+      z-index: 10000;
+    }
+
+    /* Trail container */
+    #cursor-trail {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+      overflow: visible;
+      z-index: 9999;
+    }
+
+    /* Trail dots */
+    .trail-dot {
+      position: absolute;
+      width: 15px;
+      height: 15px;
+      border-radius: 50%;
+      background: #6a11cb;
+      opacity: 0.5;
+      pointer-events: none;
+      animation: fadeOut 1s forwards;
+      mix-blend-mode: difference;
+    }
+
+    @keyframes fadeOut {
+      to {
+        opacity: 0;
+        transform: scale(2);
       }
     }
   </style>
 </head>
 <body>
+  <!-- Topbar: Dark Mode Toggle + Section Buttons -->
+  <div id="topbar">
+    <button id="darkToggle" aria-label="Toggle Dark Mode">Dark Mode</button>
+    <button class="section-btn" data-target="about">About Me</button>
+    <button class="section-btn" data-target="skills">Skills</button>
+    <button class="section-btn" data-target="projects">Projects</button>
+    <button class="section-btn" data-target="contact">Contact</button>
+  </div>
+
   <header>
     <img
-      src="https://via.placeholder.com/150" 
-      alt="Profile Picture" 
+      src="https://via.placeholder.com/150"
+      alt="Profile Picture"
       class="profile-pic"
     />
     <h1>Master</h1>
@@ -167,7 +337,7 @@
 
   <section id="projects">
     <h2>Projects</h2>
-    
+
     <div class="project">
       <div class="project-title">Black Hole Simulation (Fortran)</div>
       <div class="project-description">
@@ -198,5 +368,86 @@
       LinkedIn: <a href="https://linkedin.com/in/master" target="_blank" rel="noopener noreferrer">linkedin.com/in/master</a>
     </p>
   </section>
+
+  <!-- Custom Cursor & Trail -->
+  <div id="cursor-trail"></div>
+  <div id="custom-cursor"></div>
+
+  <script>
+    // Dark Mode Toggle
+    const darkToggle = document.getElementById('darkToggle');
+    darkToggle.addEventListener('click', () => {
+      document.body.classList.toggle('dark');
+      if (document.body.classList.contains('dark')) {
+        darkToggle.textContent = 'Light Mode';
+      } else {
+        darkToggle.textContent = 'Dark Mode';
+      }
+    });
+
+    // Section Buttons Scroll
+    document.querySelectorAll('#topbar button.section-btn').forEach(button => {
+      button.addEventListener('click', () => {
+        const targetId = button.getAttribute('data-target');
+        const targetSection = document.getElementById(targetId);
+        if (targetSection) {
+          // Smooth scroll handled by CSS scroll-behavior: smooth
+          targetSection.scrollIntoView({ behavior: 'smooth' });
+        }
+      });
+    });
+
+    // Custom Cursor and Trail
+    const cursor = document.getElementById('custom-cursor');
+    const trailContainer = document.getElementById('cursor-trail');
+
+    // To store previous mouse positions for trail
+    const trailPositions = [];
+    const maxTrail = 12;
+
+    document.addEventListener('mousemove', e => {
+      const x = e.clientX;
+      const y = e.clientY;
+
+      // Move main cursor
+      cursor.style.left = x + 'px';
+      cursor.style.top = y + 'px';
+
+      // Change cursor color based on dark mode
+      if(document.body.classList.contains('dark')) {
+        cursor.style.backgroundColor = '#b292ff';
+      } else {
+        cursor.style.backgroundColor = '#2575fc';
+      }
+
+      // Create trail dot
+      const dot = document.createElement('div');
+      dot.classList.add('trail-dot');
+      dot.style.left = (x - 7) + 'px'; // center dot on cursor
+      dot.style.top = (y - 7) + 'px';
+
+      // Set dot color depending on mode
+      if(document.body.classList.contains('dark')) {
+        dot.style.backgroundColor = '#b292ff';
+      } else {
+        dot.style.backgroundColor = '#6a11cb';
+      }
+
+      trailContainer.appendChild(dot);
+
+      // Remove dot after animation
+      dot.addEventListener('animationend', () => {
+        dot.remove();
+      });
+    });
+
+    // Optional: Hide default cursor on touch devices
+    function isTouchDevice() {
+      return (('ontouchstart' in window) || (navigator.maxTouchPoints > 0));
+    }
+    if (isTouchDevice()) {
+      cursor.style.display = 'none';
+    }
+  </script>
 </body>
 </html>
