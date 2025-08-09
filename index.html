@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Master's Portfolio</title>
+  <style>
+    /* Reset some basic stuff */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background: #f4f7f8;
+      color: #333;
+      line-height: 1.6;
+      padding: 20px;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    /* Profile pic styling */
+    .profile-pic {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid #4a90e2;
+      margin-bottom: 15px;
+      display: inline-block;
+    }
+
+    h1 {
+      font-size: 2.8rem;
+      margin-bottom: 5px;
+      color: #222;
+    }
+
+    h2 {
+      color: #4a90e2;
+      margin-bottom: 15px;
+      border-bottom: 2px solid #4a90e2;
+      display: inline-block;
+      padding-bottom: 5px;
+    }
+
+    section {
+      margin-bottom: 40px;
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(74, 144, 226, 0.1);
+    }
+
+    /* Skill list style */
+    ul.skills-list {
+      list-style-type: none;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      padding-left: 0;
+    }
+
+    ul.skills-list li {
+      background: #4a90e2;
+      color: white;
+      padding: 7px 15px;
+      border-radius: 20px;
+      font-size: 0.9rem;
+      font-weight: 600;
+    }
+
+    /* Project cards */
+    .project {
+      margin-bottom: 15px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid #ddd;
+    }
+
+    .project:last-child {
+      border-bottom: none;
+    }
+
+    .project-title {
+      font-weight: 700;
+      color: #333;
+      font-size: 1.2rem;
+      margin-bottom: 5px;
+    }
+
+    .project-description {
+      font-size: 0.95rem;
+      color: #555;
+    }
+
+    /* Contact info */
+    .contact-info {
+      font-size: 1rem;
+      color: #333;
+    }
+
+    .contact-info a {
+      color: #4a90e2;
+      text-decoration: none;
+    }
+
+    .contact-info a:hover {
+      text-decoration: underline;
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 600px) {
+      body {
+        padding: 10px;
+      }
+
+      .profile-pic {
+        width: 100px;
+        height: 100px;
+      }
+
+      h1 {
+        font-size: 2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <img
+      src="https://via.placeholder.com/150" 
+      alt="Profile Picture" 
+      class="profile-pic"
+    />
+    <h1>Master</h1>
+    <p>Scientific Enthusiast | STEM Lover | Curious Mind</p>
+  </header>
+
+  <section id="about">
+    <h2>About Me</h2>
+    <p>
+      Hello! I'm Master, a passionate student and science enthusiast fascinated by everything STEM. I love coding, exploring physics concepts, and pushing the boundaries of knowledge. Currently, I'm preparing for JEE and sharpening my skills in various scientific domains.
+    </p>
+  </section>
+
+  <section id="skills">
+    <h2>Skills</h2>
+    <ul class="skills-list">
+      <li>Python</li>
+      <li>Fortran</li>
+      <li>Physics</li>
+      <li>Chemistry</li>
+      <li>Mathematics</li>
+      <li>German (Intermediate)</li>
+      <li>Data Analysis</li>
+      <li>Research</li>
+    </ul>
+  </section>
+
+  <section id="projects">
+    <h2>Projects</h2>
+    
+    <div class="project">
+      <div class="project-title">Black Hole Simulation (Fortran)</div>
+      <div class="project-description">
+        Created a 3D black hole simulation using Fortran with basic graphical output demonstrating gravitational lensing effects.
+      </div>
+    </div>
+
+    <div class="project">
+      <div class="project-title">Scientific YouTube Channel</div>
+      <div class="project-description">
+        Developed and maintained a YouTube channel focused on STEM topics, coding tutorials, and independent research projects.
+      </div>
+    </div>
+
+    <div class="project">
+      <div class="project-title">JEE Preparation Tracker</div>
+      <div class="project-description">
+        Designed a personalized study timetable and progress tracker to optimize preparation for JEE Mains 2025.
+      </div>
+    </div>
+  </section>
+
+  <section id="contact">
+    <h2>Contact</h2>
+    <p class="contact-info">
+      Email: <a href="mailto:master@example.com">master@example.com</a><br />
+      GitHub: <a href="https://github.com/Master" target="_blank" rel="noopener noreferrer">github.com/Master</a><br />
+      LinkedIn: <a href="https://linkedin.com/in/master" target="_blank" rel="noopener noreferrer">linkedin.com/in/master</a>
+    </p>
+  </section>
+</body>
+</html>
